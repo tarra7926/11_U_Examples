@@ -1,0 +1,25 @@
+Type        Keyword         description                             Examples
+
+Integer     int             Positive or negative whole numbers      7, -5
+
+Double      double          Positive or negative Real numbers       3.14, -2.0
+
+Character   char            A single letter                         'c', 'f'
+
+True/False  boolean         true or false                           true, false
+
+String      string          words or sentences                      "Hello World"
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Primitive variables
+
+Object variables we have used: City, Thing, Robot, and wall
+
+Variable code:
+
+int yearBorn = 420;
+
+Rules: 
+1. start with lower case letter (object variable have upper case)
+2. name that explains its function
+
