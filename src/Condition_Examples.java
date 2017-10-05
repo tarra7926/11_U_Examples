@@ -6,6 +6,7 @@ import becker.robots.Thing;
 import becker.robots.Wall;
 
 /**
+ * Examples for conditions
  *
  * @author tarra7926
  */
@@ -41,7 +42,7 @@ public class Condition_Examples {
             if (alec.canPickThing()) {
                 alec.pickThing();
             }
-            
+
         }
         if (alec.frontIsClear()) {
             alec.move();

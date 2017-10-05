@@ -1,14 +1,9 @@
-
 import becker.robots.City;
 import becker.robots.Direction;
 import becker.robots.Robot;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 /**
- *
+ * Examples for using variables
  * @author tarra7926
  */
 public class Variable_Example {
@@ -25,19 +20,18 @@ public class Variable_Example {
             //add one to move counter
             moveCounter = moveCounter + 1;
         }
-            alec.turnLeft();
-            alec.turnLeft();
-            alec.turnLeft();
-        
+        alec.turnLeft();
+        alec.turnLeft();
+        alec.turnLeft();
 
-            // counted for loop
-            for (int count = 0; count < 10; count = count + 1) {
-                alec.move();
-                
-            }
+
+        // counted for loop
+        for (int count = 0; count < 10; count = count + 1) {
+            alec.move();
+
         }
-
     }
+}
 
 
 
