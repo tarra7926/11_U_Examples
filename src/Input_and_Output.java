@@ -10,7 +10,6 @@ public class Input_and_Output {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
         //say hello
         System.out.println("hello world");
         //say hellow world in 2 lines
@@ -32,7 +31,6 @@ public class Input_and_Output {
         //say type in a word
         System.out.print("Please enter the year you were born in:");
         
-       
         //get Year
         int birthYear = input.nextInt();
         
