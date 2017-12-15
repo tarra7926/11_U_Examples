@@ -1,0 +1,20 @@
+Strings are immutable
+space is stored as its own character
+H e l l o   W o r l d
+0 1 2 3 4 5 6 7 8 9 10
+
+int length = s.length();
+
+if(s.charAt(4) == "e") = false
+s = s.replace("e","3"); = H3llo World
+or
+String = s.replace("e","3");
+         s.replaceFirst("e","3");
+
+String part1 = s.subString(2) = LL0 World
+
+String part2 = s.subString(1,4) = ell
+
+if(s.startWith("th"))
+
+if(s.endsWith("ing"))
