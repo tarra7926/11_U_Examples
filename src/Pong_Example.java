@@ -8,6 +8,8 @@ import java.awt.Graphics;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -18,25 +20,40 @@ import java.awt.event.MouseWheelEvent;
  *
  * @author tarra7926
  */
-public class Drawing_Example extends JComponent {
+public class Pong_Example extends JComponent {
 
     // Height and Width of our game
     static final int WIDTH = 800;
     static final int HEIGHT = 600;
     //Title of the window
-    String title = "My Game";
+    String title = "Pong Ping";
     // sets the framerate and delay for our game
     // you just need to select an approproate framerate
     long desiredFPS = 60;
     long desiredTime = (1000) / desiredFPS;
     // YOUR GAME VARIABLES WOULD GO HERE
-    Color candyRed = new Color(217, 0, 101);
-    int pacmanx = 50;
-
+    int paddleHeight = 100;
+    int paddleWidth = 25;
+    Rectangle player1 = new Rectangle(50, HEIGHT / 2 - paddleHeight / 2, paddleWidth, paddleHeight);
+    Rectangle player2 = new Rectangle(WIDTH - 50 - paddleWidth, HEIGHT / 2 - paddleHeight / 2, paddleWidth, paddleHeight);
+    int paddleSpeed = 7;
+    boolean player1Up = false;
+    boolean player1Down = false;
+    boolean player2Up = false;
+    boolean player2Down = false;
+    int ballSize = 30;
+    Rectangle ball = new Rectangle(WIDTH / 2 - ballSize / 2, HEIGHT / 2 - ballSize / 2, ballSize, ballSize);
+    int ballXDirection = (int) (Math.random() * (1 - (-1) + 1)) + (-1);
+    int ballYDirection = (int) (Math.random() * (1 - (-1) + 1)) + (-1);
+    int ballSpeed = 6;
+    int player1Score = 0;
+    int player2Score = 0;
+    Font biggerFont = new Font("arial", Font.BOLD, 42);
     // GAME VARIABLES END HERE   
+
     // Constructor to create the Frame and place the panel in
     // You will learn more about this in Grade 12 :)
-    public Drawing_Example() {
+    public Pong_Example() {
         // creates a windows to show my game
         JFrame frame = new JFrame(title);
 
@@ -70,23 +87,19 @@ public class Drawing_Example extends JComponent {
         g.clearRect(0, 0, WIDTH, HEIGHT);
 
         // GAME DRAWING GOES HERE
-        //draw a line from x1 y1 to x2 y2
-        g.drawLine(100, 50, 400, 300);
-        //draw a rectangle with the top left corner ar (x,y)
-        //using the given widthand Height
-        g.setColor(Color.MAGENTA);
-        g.drawRect(400, 300, 250, 100);
-        g.drawRoundRect(400, 450, 100, 100, 50, 50);
-        g.setColor(candyRed);
-        g.fillOval(400, 450, 100, 100);
-
-        int[] xPoints = {550, 600, 750};
-        int[] yPoints = {175, 50, 130};
-
-        g.fillPolygon(xPoints, yPoints, 3);
-        g.setColor(Color.YELLOW);
-        g.fillArc(pacmanx, 50, 500, 500, 45, 270);
-
+        g.setColor(Color.BLACK);
+        //draw surface
+        g.fillRect(0, 0, WIDTH, HEIGHT);
+        g.setColor(Color.WHITE);
+        //draw players
+        g.fillRect(player1.x, player1.y, player1.width, player1.height);
+        g.fillRect(player2.x, player2.y, player2.width, player2.height);
+        //draw ball
+        g.fillRect(ball.x, ball.y, ball.width, ball.height);
+        g.setFont(biggerFont);
+        //draw scores
+        g.drawString(" " + player1Score, WIDTH / 2 - 100, 50);
+        g.drawString(" " + player2Score, WIDTH / 2 + 100, 50);
         // GAME DRAWING ENDS HERE
     }
 
@@ -115,12 +128,57 @@ public class Drawing_Example extends JComponent {
 
             // all your game rules and move is done in here
             // GAME LOGIC STARTS HERE 
+            //move the ball
+            ball.x = ball.x + ballXDirection * ballSpeed;
+            ball.y = ball.y + ballYDirection * ballSpeed;
 
-            pacmanx = pacmanx + 5;
-            if (pacmanx > WIDTH) {
-                pacmanx = 0;
+            //get ball to bounce off floor
+            //bottom of ball hit height off screen
+            if (ball.y + ball.height > HEIGHT) {
+                ballYDirection = ballYDirection * -1;
+            }
+            if (ball.y <= 0) {
+                ballYDirection = ballYDirection * -1;
             }
 
+            //move player 1
+            if (player1Up && player1.y > 0) {
+                player1.y = player1.y - paddleSpeed;
+            } else if (player1Down && player1.y + player1.height < HEIGHT) {
+                player1.y = player1.y + paddleSpeed;
+            }
+
+            //move player 2
+            if (player2Up && player2.y > 0) {
+                player2.y = player2.y - paddleSpeed;
+            } else if (player2Down && player2.y + player2.height < HEIGHT) {
+                player2.y = player2.y + paddleSpeed;
+            }
+
+            if (ball.intersects(player1)) {
+                ballXDirection = ballXDirection * -1;
+
+            }
+            if (ball.intersects(player2)) {
+                ballXDirection = ballXDirection * -1;
+            }
+            if (ball.x < 0) {
+                ball.x = WIDTH / 2 - ballSize / 2;
+                ball.y = HEIGHT / 2 - ballSize / 2;
+                player1Score++;
+            }
+            if (ball.x + ball.width > WIDTH) {
+                ball.x = WIDTH / 2 - ballSize / 2;
+                ball.y = HEIGHT / 2 - ballSize / 2;
+                player2Score++;
+            }
+
+            if (player1Score == 10) {
+                done = true;
+            }
+            if (player2Score == 10) {
+                done = true;
+            }
             // GAME LOGIC ENDS HERE 
             // update the drawing (calls paintComponent)
             repaint();
@@ -171,11 +229,39 @@ public class Drawing_Example extends JComponent {
 
         @Override
         public void keyPressed(KeyEvent e) {
+            //store the key
+            int key = e.getKeyCode();
+            //determine which key it is
+            if (key == KeyEvent.VK_W) {
+                player1Up = true;
+            } else if (key == KeyEvent.VK_S) {
+                player1Down = true;
+            }
+            if (key == KeyEvent.VK_UP) {
+                player2Up = true;
+            } else if (key == KeyEvent.VK_DOWN) {
+                player2Down = true;
+            }
+
         }
 
         // if a key has been released
         @Override
         public void keyReleased(KeyEvent e) {
+            //store the key
+            int key = e.getKeyCode();
+            //determine which key it is
+            if (key == KeyEvent.VK_W) {
+                player1Up = false;
+            } else if (key == KeyEvent.VK_S) {
+                player1Down = false;
+            }
+            if (key == KeyEvent.VK_UP) {
+                player2Up = false;
+            } else if (key == KeyEvent.VK_DOWN) {
+                player2Down = false;
+            }
+
         }
     }
 
@@ -184,7 +270,7 @@ public class Drawing_Example extends JComponent {
      */
     public static void main(String[] args) {
         // creates an instance of my game
-        Drawing_Example game = new Drawing_Example();
+        Pong_Example game = new Pong_Example();
 
         // starts the game loop
         game.run();

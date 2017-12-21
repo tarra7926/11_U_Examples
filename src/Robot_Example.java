@@ -48,6 +48,6 @@ public class Robot_Example {
 
         // change tina's colour to magenta
         tina.setColor(Color.MAGENTA);
-        
+
     }
 }

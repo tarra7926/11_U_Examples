@@ -1,3 +1,4 @@
+
 /**
  *
  * @author tarra7926
@@ -78,17 +79,17 @@ public class GUI_Example extends javax.swing.JFrame {
         //Convert text ot an integer
         //Double.parseDouble(yearText); if you want a double
         int yearBorn = Integer.parseInt(yearText);
-        
+
         int age = 2017 - yearBorn;
-        
-        output.setText ("You are " + age + " years old!");
+
+        output.setText("You are " + age + " years old!");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-      
+
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

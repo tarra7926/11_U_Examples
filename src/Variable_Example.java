@@ -1,9 +1,11 @@
+
 import becker.robots.City;
 import becker.robots.Direction;
 import becker.robots.Robot;
 
 /**
  * Examples for using variables
+ *
  * @author tarra7926
  */
 public class Variable_Example {
